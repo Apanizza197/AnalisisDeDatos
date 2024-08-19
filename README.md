@@ -1,6 +1,7 @@
 # AnalisisDeDatos
 Este github va a tener los prácticos hechos de análisis de datos
 
+Hay que agregar el archivo permisos_construccion.csv en la carpeta Practico 1.
 
 Consideraciones generales:
 + Si no se sube al GitHub, el resto no lo ve y no puede trabajar.
