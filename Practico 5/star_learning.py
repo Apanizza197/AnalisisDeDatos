@@ -30,15 +30,15 @@ from IPython.display import Image
 import pydotplus
 
 #%% Leer csv Titanic
-titanic = pd.read_csv('titanic.csv')
-print(titanic.head())
+star_data = pd.read_csv('estrellas.csv')
+print(star_data.head())
 
 #%% Evaluar datos faltantes
-print(titanic.isnull().sum())
+print(star_data.isnull().sum())
 
 # %% Separar en train y test
-X = titanic.drop(columns='Survived')
-y = titanic['Survived']
+X = star_data.drop(columns='Spectral Class')
+y = star_data['Spectral Class']
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
@@ -46,21 +46,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.2, random_state=42)
 
 # %% Preprocesar datos faltantes
-# Obtener la media de columnas Age y Embarked
-mean_age = X_train['Age'].mean()
-mean_embarked = X_train['Embarked'].mode()[0]
-
-def sustituir_datos_faltantes(data):
-    print(data.columns)
-    '''Sustituir datos faltantes en columnas Age y Embarked por la media'''
-    data['Age'] = data['Age'].fillna(mean_age)
-    data['Embarked'] = data['Embarked'].fillna(mean_embarked)
-    return data
-
-X_train = sustituir_datos_faltantes(X_train)
-X_val = sustituir_datos_faltantes(X_val)
-X_test = sustituir_datos_faltantes(X_test)
-
+# No hay datos faltantes
 #%% Preprocesar variables categoricas
 def preprocesar_variables_categoricas(data):
     '''Preprocesar variables categoricas'''
