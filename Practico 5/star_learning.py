@@ -50,10 +50,11 @@ X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.
 #%% Preprocesar variables categoricas
 def preprocesar_variables_categoricas(data):
     '''Preprocesar variables categoricas'''
-    # Obtener dummies de columnas Sex, Embarked, Pclass
-    dummies = pd.get_dummies(data[['Sex', 'Embarked', 'Pclass']])
+    # Obtener dummies de columnas Star type, Star category, Star color
+    dummies = pd.get_dummies(data[['Star type', 'Star category', 'Star color']])
+    print(dummies)
     # Eliminar columnas originales
-    data.drop(columns=['Sex', 'Embarked', 'Pclass'], inplace=True)
+    data.drop(columns=['Star type', 'Star category', 'Star color'], inplace=True)
     # Concatenar dummies
     data = pd.concat([data, dummies], axis=1)
     return data
@@ -63,14 +64,7 @@ X_val = preprocesar_variables_categoricas(X_val)
 X_test = preprocesar_variables_categoricas(X_test)
 
 #%% Eliminar columnas innecesarias
-def eliminar_columnas(data):
-    '''Eliminar columnas innecesarias'''
-    data.drop(columns=['PassengerId', 'Name', 'Ticket', 'Cabin'], inplace=True)
-    return data
-
-X_train = eliminar_columnas(X_train)
-X_val = eliminar_columnas(X_val)
-X_test = eliminar_columnas(X_test)
+# No hay columnas innecesarias
 
 features = list(X_train.columns)
 #%% Normalizar datos
@@ -85,6 +79,10 @@ X_val = normalizar_datos(X_val)
 X_test = normalizar_datos(X_test)
 
 # %% Entrenar modelo DecisionTree
+
+# Check the shape of X_train and X_val
+assert X_train.shape[1] == X_val.shape[1], "Mismatch in number of features between X_train and X_val"
+
 modelo_decision_tree = DecisionTreeClassifier()
 modelo_decision_tree.fit(X_train, y_train)
 y_pred = modelo_decision_tree.predict(X_val)
