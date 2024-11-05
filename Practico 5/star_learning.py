@@ -1,6 +1,4 @@
 
-#Este archivo sirve para guia
-
 #%% Importar librerias 
 import pandas as pd
 import seaborn as sns
