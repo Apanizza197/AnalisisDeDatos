@@ -1,10 +1,12 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import MinMaxScaler
+import os
 
 # Cargar el archivo CSV
-# Reemplaza 'tu_archivo.csv' con la ruta a tu archivo CSV
-df = pd.read_csv("Practico 5\clientes_shopping.csv")
+script_dir = os.path.dirname(os.path.abspath(__file__))
+csv_path = os.path.join(script_dir, 'clientes_shopping.csv')
+df = pd.read_csv(csv_path)
 
 # Normalización usando Min-Max Scaling para las columnas 'edad' y 'annual income'
 scaler = MinMaxScaler()
