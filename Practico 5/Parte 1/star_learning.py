@@ -27,8 +27,13 @@ from IPython.display import Image
 from IPython.display import Image  
 import pydotplus
 
+import os
+
 #%% Leer csv Titanic
-star_data = pd.read_csv('estrellas.csv')
+script_dir = os.path.dirname(os.path.abspath(__file__))
+csv_path = os.path.join(script_dir, 'estrellas.csv')
+#print("Path: ",csv_path)
+star_data = pd.read_csv(csv_path)
 print(star_data.head())
 
 #%% Evaluar datos faltantes

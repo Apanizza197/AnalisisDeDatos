@@ -1,12 +1,21 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import MinMaxScaler
+<<<<<<< HEAD:Practico 5/shopping_mall.py
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 import numpy as np
 
 # Cargar el archivo CSV
 df = pd.read_csv("Practico 5/clientes_shopping.csv")
+=======
+import os
+
+# Cargar el archivo CSV
+script_dir = os.path.dirname(os.path.abspath(__file__))
+csv_path = os.path.join(script_dir, 'clientes_shopping.csv')
+df = pd.read_csv(csv_path)
+>>>>>>> c5dcabbfaa77e8423df4899563e1e78a71bb06a4:Practico 5/Parte 2/shopping_mall.py
 
 # Normalización usando Min-Max Scaling para las columnas 'Age' y 'Annual Income'
 scaler = MinMaxScaler()
