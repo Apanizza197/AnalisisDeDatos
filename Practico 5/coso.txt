@@ -1,1 +1,0 @@
-La idea es que se separa en 3. El de entrenamiento, el de validación lo usamos para ver el mejor modelo. Después testeamos con otro separado.
