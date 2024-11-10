@@ -1,6 +1,4 @@
 
-#Este archivo sirve para guia
-
 #%% Importar librerias 
 import pandas as pd
 import seaborn as sns
@@ -29,16 +27,21 @@ from IPython.display import Image
 from IPython.display import Image  
 import pydotplus
 
+import os
+
 #%% Leer csv Titanic
-titanic = pd.read_csv('titanic.csv')
-print(titanic.head())
+script_dir = os.path.dirname(os.path.abspath(__file__))
+csv_path = os.path.join(script_dir, 'estrellas.csv')
+#print("Path: ",csv_path)
+star_data = pd.read_csv(csv_path)
+print(star_data.head())
 
 #%% Evaluar datos faltantes
-print(titanic.isnull().sum())
+print(star_data.isnull().sum())
 
 # %% Separar en train y test
-X = titanic.drop(columns='Survived')
-y = titanic['Survived']
+X = star_data.drop(columns='Spectral Class')
+y = star_data['Spectral Class']
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
@@ -46,28 +49,15 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.2, random_state=42)
 
 # %% Preprocesar datos faltantes
-# Obtener la media de columnas Age y Embarked
-mean_age = X_train['Age'].mean()
-mean_embarked = X_train['Embarked'].mode()[0]
-
-def sustituir_datos_faltantes(data):
-    print(data.columns)
-    '''Sustituir datos faltantes en columnas Age y Embarked por la media'''
-    data['Age'] = data['Age'].fillna(mean_age)
-    data['Embarked'] = data['Embarked'].fillna(mean_embarked)
-    return data
-
-X_train = sustituir_datos_faltantes(X_train)
-X_val = sustituir_datos_faltantes(X_val)
-X_test = sustituir_datos_faltantes(X_test)
-
+# No hay datos faltantes
 #%% Preprocesar variables categoricas
 def preprocesar_variables_categoricas(data):
     '''Preprocesar variables categoricas'''
-    # Obtener dummies de columnas Sex, Embarked, Pclass
-    dummies = pd.get_dummies(data[['Sex', 'Embarked', 'Pclass']])
+    # Obtener dummies de columnas Star type, Star category, Star color
+    dummies = pd.get_dummies(data[['Star type', 'Star category', 'Star color']])
+    print(dummies)
     # Eliminar columnas originales
-    data.drop(columns=['Sex', 'Embarked', 'Pclass'], inplace=True)
+    data.drop(columns=['Star type', 'Star category', 'Star color'], inplace=True)
     # Concatenar dummies
     data = pd.concat([data, dummies], axis=1)
     return data
@@ -77,14 +67,7 @@ X_val = preprocesar_variables_categoricas(X_val)
 X_test = preprocesar_variables_categoricas(X_test)
 
 #%% Eliminar columnas innecesarias
-def eliminar_columnas(data):
-    '''Eliminar columnas innecesarias'''
-    data.drop(columns=['PassengerId', 'Name', 'Ticket', 'Cabin'], inplace=True)
-    return data
-
-X_train = eliminar_columnas(X_train)
-X_val = eliminar_columnas(X_val)
-X_test = eliminar_columnas(X_test)
+# No hay columnas innecesarias
 
 features = list(X_train.columns)
 #%% Normalizar datos
@@ -99,6 +82,10 @@ X_val = normalizar_datos(X_val)
 X_test = normalizar_datos(X_test)
 
 # %% Entrenar modelo DecisionTree
+
+# Check the shape of X_train and X_val
+assert X_train.shape[1] == X_val.shape[1], "Mismatch in number of features between X_train and X_val"
+
 modelo_decision_tree = DecisionTreeClassifier()
 modelo_decision_tree.fit(X_train, y_train)
 y_pred = modelo_decision_tree.predict(X_val)
